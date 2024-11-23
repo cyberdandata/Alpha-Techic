@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .post {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+
+        .post h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #007BFF;
+        }
+
+        .post p {
+            margin: 5px 0 0;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #777;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Public Site</h1>
+        <div id="content">
+            <p class="no-data">Loading data...</p>
+        </div>
+    </div>
+
+    <script>
+        async function fetchData() {
+            // Fetch data from the backend
+            const response = await fetch('http://localhost:5000/data');
+            const data = await response.json();
+
+            const contentDiv = document.getElementById('content');
+            contentDiv.innerHTML = ''; // Clear previous content
+
+            if (data.length === 0) {
+                contentDiv.innerHTML = '<p class="no-data">No data available.</p>';
+                return;
+            }
+
+            // Display each entry
+            data.forEach(item => {
+                const postDiv = document.createElement('div');
+                postDiv.className = 'post';
+
+                const title = document.createElement('h2');
+                title.textContent = item.title;
+
+                const content = document.createElement('p');
+                content.textContent = item.content;
+
+                postDiv.appendChild(title);
+                postDiv.appendChild(content);
+                contentDiv.appendChild(postDiv);
+            });
+        }
+
+        // Fetch data on page load
+        fetchData();
+    </script>
+</body>
+</html>
