@@ -65,7 +65,7 @@
     <script>
         async function fetchData() {
             // Fetch data from the backend
-            const response = await fetch('http://localhost:5000/data');
+            const response = await fetch('http://127.0.0.1:4040');
             const data = await response.json();
 
             const contentDiv = document.getElementById('content');
