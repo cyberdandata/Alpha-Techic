@@ -94,7 +94,7 @@
             const content = document.getElementById('content').value;
 
             // Send data to the backend
-            const response = await fetch('http://localhost:5000/upload', {
+            const response = await fetch('http://127.0.0.1:4040', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
