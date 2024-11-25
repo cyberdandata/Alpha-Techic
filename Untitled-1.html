@@ -1,71 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alpha Technic</title>
-  <link rel="stylesheet" href="alpha css.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Agendum</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        #weeklyAgendum {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        #weeklyAgendum:hover {
+            background-color: #0056b3;
+        }
+
+        #weeklyAgendumContainer {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 5px;
+        }
+
+        h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        #agendumList {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #agendumList li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            color: #555;
+        }
+
+        #agendumList li:last-child {
+            border-bottom: none;
+        }
+    </style>
 </head>
 <body>
-  <div class="header-container">
-    <h1 class="animated-header">ALPHA TECHNIC</h1>
-  </div>
-  <div class="content">
-    <!-- Right Triangle Container -->
-    <div class="triangle-container">
-      <img src="image.jpg" alt="Your Image" class="image-placeholder">
+    <ul>
+        <li id="weeklyAgendum">Weekly Agendum</li>
+    </ul>
+
+    <div id="weeklyAgendumContainer" style="display: none;">
+        <h2>Upcoming Events</h2>
+        <ul id="agendumList"></ul>
     </div>
-    <!-- Left Services Section -->
-    <div class="services-container">
-      <h1 class="services">SERVICES OFFERED</h1>
-      <ul class="main-list">
-        <li>
-          <button class="expand-btn">Frontends</button>
-          <ul class="nested-list">
-            <li>
-              <button class="expand-btn">Web Designings</button>
-              <ul class="nested-list">
-                <li>
-                  <button class="expand-btn">Static Sites</button>
-                  <p class="description">Static sites are pre-built, fast, and do not change dynamically without manual updates.</p>
-                </li>
-                <li>
-                  <button class="expand-btn">Dynamic Sites</button>
-                  <p class="description">Dynamic sites display live content and interact with databases to update in real-time.</p>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <button class="expand-btn">Animations</button>
-              <ul class="nested-list">
-                <li>
-                  <button class="expand-btn">2D</button>
-                  <p class="description">2D animations are flat, two-dimensional visuals used for simple graphics.</p>
-                </li>
-                <li>
-                  <button class="expand-btn">3D</button>
-                  <p class="description">3D animations are realistic visuals with depth, often used for games or simulations.</p>
-                </li>
-                <li>
-                  <button class="expand-btn">Graphics</button>
-                  <p class="description">Graphics involve designing photos, editing with tools like Photoshop, and creating visuals.</p>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <button class="expand-btn">Backends</button>
-        </li>
-        <li>
-          <button class="expand-btn">Machine Programs</button>
-        </li>
-        <li>
-          <button class="expand-btn">Computer Learning</button>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <script src="alpha.js"></script>
+
+    <script>
+        async function fetchWeeklyAgendum() {
+            try {
+                const response = await fetch('http://192.168.100.6:8080/agendum');
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                const data = await response.json();
+                displayWeeklyAgendum(data.events);
+            } catch (error) {
+                console.error("Failed to fetch Weekly Agendum:", error);
+            }
+        }
+
+        function displayWeeklyAgendum(events) {
+            const eventList = document.getElementById('agendumList');
+            eventList.innerHTML = '';
+
+            events.forEach(event => {
+                const li = document.createElement('li');
+                li.textContent = `${event.name}: ${event.time}`;
+                eventList.appendChild(li);
+            });
+        }
+
+        document.getElementById('weeklyAgendum').addEventListener('click', () => {
+            const container = document.getElementById('weeklyAgendumContainer');
+            container.style.display = container.style.display === 'none' ? 'block' : 'none';
+            if (container.style.display === 'block') fetchWeeklyAgendum();
+        });
+    </script>
 </body>
 </html>
