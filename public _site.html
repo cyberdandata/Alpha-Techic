@@ -63,13 +63,14 @@
     </div>
 
     <script>
-        // Replace with your ngrok URL or localhost address
-        const apiUrl = ' https://3145-102-222-234-218.ngrok-free.app';  // Update with actual ngrok or localhost URL
+        const apiUrl = 'https://3145-102-222-234-218.ngrok-free.app';  // Base URL
+        const fetchDataUrl = `${apiUrl}/data`;  // For GET request
+        const postDataUrl = `${apiUrl}/upload`;  // For POST request
 
         // Function to fetch posts
         async function fetchData() {
             try {
-                const response = await fetch(`${apiUrl}/data`);
+                const response = await fetch(fetchDataUrl);
                 const data = await response.json();
 
                 const contentDiv = document.getElementById('content');
@@ -103,7 +104,7 @@
         // Function to post new data
         async function postData(title, content) {
             try {
-                const response = await fetch(`${apiUrl}/upload`, {
+                const response = await fetch(postDataUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ title, content })
