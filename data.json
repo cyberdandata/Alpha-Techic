@@ -1,4 +1,12 @@
 {
-  "title": "Sample Title",
-  "content": "This is a sample content."
+    "events": [
+        {
+            "name": "Team Meeting",
+            "time": "2024-11-25 10:00"
+        },
+        {
+            "name": "Project Review",
+            "time": "2024-11-25 14:00"
+        }
+    ]
 }
